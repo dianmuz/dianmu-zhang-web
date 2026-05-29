@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dianmu Zhang, Ph.D. — ML Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080808;
+      --surface:  #111111;
+      --border:   #2a2a2a;
+      --white:    #f0f0f0;
+      --dim:      #888888;
+      --accent:   #e0e0e0;
+      --cyan:     #00d4ff;
+      --mono:     'Share Tech Mono', monospace;
+      --sans:     'Rajdhani', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* offset scroll targets so fixed nav doesn't cover them */
+    section[id] { scroll-margin-top: 72px; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── UTILITY ──────────────────────────────────────────────────── */
+    .mono { font-family: var(--mono); }
+    .tag  { font-family: var(--mono); font-size: 0.7rem; color: var(--cyan);
+            letter-spacing: 0.15em; text-transform: uppercase; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--cyan); }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+    nav ul a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--white); text-decoration: none; }
+
+    /* ─── HERO ─────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* big background grid */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.35;
+    }
+
+    /* corner brackets decoration */
+    .corner {
+      position: absolute;
+      width: 60px; height: 60px;
+      border-color: var(--cyan);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .corner-tl { top: 7rem; left: 3rem; border-width: 2px 0 0 2px; }
+    .corner-tr { top: 7rem; right: 3rem; border-width: 2px 2px 0 0; }
+    .corner-bl { bottom: 4rem; left: 3rem; border-width: 0 0 2px 2px; }
+    .corner-br { bottom: 4rem; right: 3rem; border-width: 0 2px 2px 0; }
+
+    .hero-content { position: relative; max-width: 900px; }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-eyebrow::before {
+      content: '// ';
+      opacity: 0.5;
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    h1 .phd {
+      font-size: 0.35em;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      vertical-align: super;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin: 1.2rem 0 2rem;
+    }
+    .hero-subtitle span { color: var(--accent); }
+
+    .hero-blurb {
+      max-width: 620px;
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #aaaaaa;
+      border-left: 2px solid var(--cyan);
+      padding-left: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.75rem 2rem;
+      border: 1px solid;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--white);
+      color: var(--bg);
+      border-color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: var(--bg);
+      text-decoration: none;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--white);
+      text-decoration: none;
+    }
+
+    /* status bar */
+    .hero-status {
+      position: absolute;
+      bottom: 3rem;
+      right: 3rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.12em;
+      text-align: right;
+      line-height: 1.8;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    /* ─── SECTIONS ─────────────────────────────────────────────────── */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .section-header h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section-header .section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── ABOUT ────────────────────────────────────────────────────── */
+    #about .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+    #about p {
+      color: #aaaaaa;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    #about p + p { margin-top: 1rem; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .stat-box {
+      border: 1px solid var(--border);
+      padding: 1.2rem;
+      position: relative;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0;
+      width: 40%;
+      height: 2px;
+      background: var(--cyan);
+    }
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 2rem;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 0.3rem;
+    }
+
+    /* ─── SKILLS ───────────────────────────────────────────────────── */
+    #skills .skill-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .skill-group h3 {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ─── EXPERIENCE ───────────────────────────────────────────────── */
+    #experience .timeline { position: relative; }
+    #experience .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .exp-item {
+      padding: 0 0 3.5rem 2.5rem;
+      position: relative;
+    }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 6px;
+      width: 9px; height: 9px;
+      background: var(--bg);
+      border: 1px solid var(--cyan);
+      transform: rotate(45deg);
+    }
+
+    .exp-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .exp-company {
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .exp-period {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      padding-top: 0.35rem;
+    }
+    .exp-role {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+    .exp-bullets {
+      list-style: none;
+      color: #aaaaaa;
+      font-size: 0.98rem;
+      line-height: 1.75;
+    }
+    .exp-bullets li {
+      padding-left: 1.4rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--dim);
+      font-size: 0.75rem;
+      top: 0.12rem;
+    }
+
+    /* ─── PUBLICATIONS ─────────────────────────────────────────────── */
+    #publications .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .pub-item {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 1rem;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .pub-item:hover { border-color: #444; }
+    .pub-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,212,255,0.04), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .pub-item:hover::before { opacity: 1; }
+    .pub-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      padding-top: 0.1rem;
+    }
+    .pub-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .pub-meta {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--dim);
+    }
+    .pub-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid;
+      letter-spacing: 0.08em;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+    .badge-patent { border-color: #ffaa00; color: #ffaa00; }
+    .badge-journal { border-color: var(--cyan); color: var(--cyan); }
+    .badge-conf { border-color: #888; color: #888; }
+
+    /* ─── CONTACT ──────────────────────────────────────────────────── */
+    #contact {
+      border-top: 1px solid var(--border);
+    }
+    #contact .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    #contact h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    #contact p {
+      color: #aaaaaa;
+      line-height: 1.7;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .contact-row:hover { border-color: var(--cyan); }
+    .contact-icon {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      width: 60px;
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+    .contact-val {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.2rem; }
+      #hero { padding: 5rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      #about .grid,
+      #contact .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .corner { display: none; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">DZ<span>.</span>PH<span>D</span></div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#publications">Research</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">ML Engineer &amp; AI Researcher</p>
+      <h1>Dianmu<br>Zhang <span class="phd">Ph.D</span></h1>
+      <p class="hero-subtitle">
+        <span>Agentic AI</span> · Computer Vision · Edge ML
+      </p>
+      <p class="hero-blurb">
+        Building and shipping AI systems that reach billions of users — from real-time inking prediction
+        on Windows to multi-agent LLM systems for healthcare. PhD from University of Washington.
+        5 granted &amp; pending patents. Published in IJCAI, JAIR.
+        <strong style="color:var(--cyan);font-family:var(--mono);font-size:0.8em;letter-spacing:0.1em;">&#x2713; AUTHORIZED TO WORK IN THE US · NO SPONSORSHIP REQUIRED</strong>
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#experience">View Experience</a>
+        <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-status">
+      <div><span class="status-dot"></span>AVAILABLE FOR OPPORTUNITIES</div>
+      <div>BELLEVUE, WA</div>
+      <div>SYSTEM_READY // v2026.1</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>About</h2>
+    </div>
+    <div class="grid">
+      <div>
+        <p>
+          Dianmu Zhang is an ML engineer with deep experience building and shipping AI systems across
+          agentic AI, computer vision, and on-device ML. She brings a rare combination of research
+          depth — a PhD from the University of Washington, patents, and peer-reviewed publications —
+          alongside strong product execution.
+        </p>
+        <p>
+          She has led impactful projects at Microsoft, Biorender (Y Combinator), and Optum, including
+          real-time inking prediction used by billions and multi-agent LLM systems for healthcare.
+          Published in recognized AI venues (IJCAI, JAIR) and serves as a reviewer for IEEE RA-L
+          and ICRA.
+        </p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Granted &amp; Pending Patents</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">1B+</div>
+          <div class="stat-label">Users Reached</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">11</div>
+          <div class="stat-label">Publications</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Yrs Research &amp; Eng</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Skills</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>AI / ML</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Machine Learning</span>
+          <span class="skill-tag">Deep Learning</span>
+          <span class="skill-tag">Agentic AI</span>
+          <span class="skill-tag">LLMs</span>
+          <span class="skill-tag">GenAI</span>
+          <span class="skill-tag">Reinforcement Learning</span>
+          <span class="skill-tag">Computer Vision</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Model Ops &amp; Edge Deployment</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Model Training</span>
+          <span class="skill-tag">Fine-tuning</span>
+          <span class="skill-tag">Model Optimization</span>
+          <span class="skill-tag">Edge Inference</span>
+          <span class="skill-tag">Shipped on Windows &amp; Android</span>
+          <span class="skill-tag">GPU / NPU / CPU</span>
+          <span class="skill-tag">ONNX</span>
+          <span class="skill-tag">TFLite</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Platforms &amp; Languages</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">C#</span>
+          <span class="skill-tag">MCP</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Machine Learning Frameworks</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">PyTorch</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Optum</div>
+          <div class="exp-period">2025 — PRESENT</div>
+        </div>
+        <div class="exp-role">// LEAD AI/ML ENGINEER · BELLEVUE, WA (REMOTE)</div>
+        <ul class="exp-bullets">
+          <li>Engineered multi-agent AI systems (LLM) for patient scheduling and physician decision-support.</li>
+          <li>Implemented advanced reasoning patterns: Chain-of-Thought, Actor-Critic, Reflection.</li>
+          <li>Built grounded retrieval pipelines via MCP.</li>
+          <li>Currently hold 5 pending patents for novel agentic architectures.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Biorender <span style="font-size:0.6em;color:var(--dim);letter-spacing:0.15em">(Y COMBINATOR)</span></div>
+          <div class="exp-period">2024 — 2025</div>
+        </div>
+        <div class="exp-role">// SENIOR MACHINE LEARNING SCIENTIST · REMOTE</div>
+        <ul class="exp-bullets">
+          <li>Architected and deployed a multi-stage text-to-figure system for scientific illustration.</li>
+          <li>Utilized LLMs to transform natural language into executable layout code.</li>
+          <li>Successfully shipped to 100% of the Biorender user base.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Graham AI</div>
+          <div class="exp-period">2022 — 2024</div>
+        </div>
+        <div class="exp-role">// TECHNICAL FOUNDER · BELLEVUE, WA</div>
+        <ul class="exp-bullets">
+          <li>Built AI to distill information from lengthy financial documents.</li>
+          <li>Ranked top 5% portfolio in the Y Combinator selection process.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Microsoft</div>
+          <div class="exp-period">2018 — 2022</div>
+        </div>
+        <div class="exp-role">// ML RESEARCHER · REDMOND, WA</div>
+        <ul class="exp-bullets">
+          <li>Built novel neural networks solving problems in Human-Computer Interaction and computer vision — shipped to billions of end users.</li>
+          <li>Inking prediction is one of the first AI models shipped on Windows; led research prototyping to production.</li>
+          <li>Deep learning techniques: embeddings, semantic segmentation, attention-based graph networks, autoencoders, VAEs.</li>
+          <li>Led end-to-end ML development: training from scratch to on-device optimization for Windows and Android (GPU, NPU, tflite, ONNX).</li>
+          <li>Patent granted: Multiple Object Tracking (US 11,017,538).</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">University of Washington</div>
+          <div class="exp-period">2015 — 2020</div>
+        </div>
+        <div class="exp-role">// PH.D. RESEARCHER · SEATTLE, WA</div>
+        <ul class="exp-bullets">
+          <li>PhD in Electrical &amp; Computer Engineering, focus on AI applications in robotics.</li>
+          <li>Built AI to solve high-cognitive problems: symbolic inverse kinematics via Behavior Trees.</li>
+          <li>Research on reinforcement learning for long-horizon tasks.</li>
+          <li>Published in JAIR, IJCAI, and IROS.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Research</h2>
+    </div>
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <div class="pub-num">01</div>
+        <div>
+          <div class="pub-title">Multi-Agent Query Resolution Ecosystem For Fragmented Web Domain <span class="pub-badge badge-patent">PATENT</span></div>
+          <div class="pub-meta">Zhang D, Morato M, Yang W, Hassan S, Mekic I · 2026 · App. No. 19/567,834 · Pending</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">02</div>
+        <div>
+          <div class="pub-title">Multi-Agent Web Navigation &amp; Functionality Scraping Agents For Fragmented Web Domain <span class="pub-badge badge-patent">PATENT</span></div>
+          <div class="pub-meta">Zhang D, Morato M, Yang W, Hassan S, Mekic I · 2026 · App. No. 19/577,738 · Pending</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">03</div>
+        <div>
+          <div class="pub-title">Actor-Critic Agentic Input Scheme For Fragmented Web Domain <span class="pub-badge badge-patent">PATENT</span></div>
+          <div class="pub-meta">Zhang D, Morato M, et al. · 2026 · App. No. 19/630,767 · Pending</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">04</div>
+        <div>
+          <div class="pub-title">Multi-Agent Web Scraping and Validation Scheme for Fragmented Web Domain <span class="pub-badge badge-patent">PATENT</span></div>
+          <div class="pub-meta">Zhang D, Morato M, et al. · 2026 · App. No. 19/577,746 · Pending</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">05</div>
+        <div>
+          <div class="pub-title">Multiple Object Tracking <span class="pub-badge badge-patent">PATENT GRANTED</span></div>
+          <div class="pub-meta">Zhang D, Zharkov I · Grant No. 11,017,538 · May 2021 · <a href="https://patents.justia.com/patent/11017538" target="_blank">justia.com</a></div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">06</div>
+        <div>
+          <div class="pub-title">IKBT: Solving Symbolic Inverse Kinematics with Behavior Tree <span class="pub-badge badge-journal">JAIR</span></div>
+          <div class="pub-meta">Zhang D, Hannaford B · Journal of Artificial Intelligence Research · 2019 · <a href="https://doi.org/10.1613/jair.1.11592" target="_blank">DOI</a></div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">07</div>
+        <div>
+          <div class="pub-title">IKBT: Solving Symbolic Inverse Kinematics with Behavior Tree <span class="pub-badge badge-conf">IJCAI</span></div>
+          <div class="pub-meta">Zhang D, Hannaford B · IJCAI 2020 · Yokohama, Japan</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-num">08</div>
+        <div>
+          <div class="pub-title">Autonomous Inverse Kinematics Solver <span class="pub-badge badge-conf">IROS</span></div>
+          <div class="pub-meta">Zhang D, Hannaford B · IROS 2017 · Vancouver, Canada</div>
+        </div>
+      </div>
+
+    </div>
+    <p style="margin-top:2rem; font-family:var(--mono); font-size:0.72rem; color:var(--dim);">
+      Full publication list on <a href="https://goo.gl/Nry7n7" target="_blank">Google Scholar ↗</a>
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="contact-inner">
+      <div>
+        <h2>Let's<br>Connect</h2>
+        <p>Open to senior ML/AI engineering roles, research collaborations, and speaking engagements.</p>
+      </div>
+      <div class="contact-links">
+        <div class="contact-row" id="email-row" style="cursor:pointer;" onclick="revealEmail()">
+          <span class="contact-icon">EMAIL</span>
+          <span class="contact-val" id="email-display" style="color:var(--dim);font-family:var(--mono);font-size:0.8rem;letter-spacing:0.08em;">[ CLICK TO REVEAL ]</span>
+        </div>
+        <a class="contact-row" href="https://www.linkedin.com/in/dianmu-zhang-8b3b0221/" target="_blank">
+          <span class="contact-icon">LINKEDIN</span>
+          <span class="contact-val">dianmu-zhang-8b3b0221</span>
+        </a>
+        <a class="contact-row" href="https://goo.gl/Nry7n7" target="_blank">
+          <span class="contact-icon">SCHOLAR</span>
+          <span class="contact-val">Google Scholar</span>
+        </a>
+        <div class="contact-row">
+          <span class="contact-icon">LOCATION</span>
+          <span class="contact-val">Bellevue, WA</span>
+        </div>
+        <div class="contact-row" style="border-color:#00d4ff33;">
+          <span class="contact-icon" style="color:var(--cyan);width:auto;margin-right:0.2rem;">&#x2713;</span>
+          <span class="contact-val" style="color:var(--cyan);font-family:var(--mono);font-size:0.8rem;letter-spacing:0.08em;">AUTHORIZED TO WORK IN THE US · NO SPONSORSHIP REQUIRED</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function revealEmail() {
+      var u = 'dianmu';
+      var d = 'dianmuzhang' + '.' + 'com';
+      var email = u + '@' + d;
+      var row = document.getElementById('email-row');
+      var display = document.getElementById('email-display');
+      display.textContent = email;
+      display.style.color = '';
+      display.style.fontFamily = '';
+      display.style.fontSize = '';
+      display.style.letterSpacing = '';
+      row.onclick = function() { window.location.href = 'mailto:' + email; };
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          window.scrollTo({ top: target.offsetTop - 72, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 DIANMU ZHANG, PH.D.</p>
+    <p>BELLEVUE, WA · ML ENGINEER · AI RESEARCHER</p>
+  </footer>
+
+</body>
+</html>
