@@ -523,13 +523,60 @@
 
         <div class="analogy-box">
           <div class="label">The Lego Analogy</div>
+
+          <!-- Lego illustration: two loose bricks → small stack -->
+          <svg viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg" style="width:min(360px,100%);height:auto;display:block;margin:1rem auto 1.2rem;">
+            <!-- helper: isometric brick macro
+                 each brick: front rect + top polygon + right polygon + studs -->
+
+            <!-- ── BRICK A (purple, 2-stud) ── -->
+            <rect x="20" y="58" width="60" height="24" rx="1" fill="#1e1230" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="20,58 34,44 94,44 80,58" fill="#2e1e48" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="94,44 94,68 80,82 80,58" fill="#120a20" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="47" cy="50" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="47" cy="48.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="67" cy="50" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="67" cy="48.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+
+            <!-- ── BRICK B (cyan, 2-stud) ── -->
+            <rect x="110" y="58" width="60" height="24" rx="1" fill="#081a28" stroke="#00d4ff" stroke-width="1"/>
+            <polygon points="110,58 124,44 184,44 170,58" fill="#0d2636" stroke="#00d4ff" stroke-width="1"/>
+            <polygon points="184,44 184,68 170,82 170,58" fill="#040e18" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="137" cy="50" rx="7" ry="3.5" fill="#0d2636" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="137" cy="48.5" rx="7" ry="3.5" fill="#1a3a4a" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="157" cy="50" rx="7" ry="3.5" fill="#0d2636" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="157" cy="48.5" rx="7" ry="3.5" fill="#1a3a4a" stroke="#00d4ff" stroke-width="0.8"/>
+
+            <!-- ── ARROW ── -->
+            <line x1="200" y1="65" x2="228" y2="65" stroke="#333" stroke-width="1.5"/>
+            <polygon points="228,61 236,65 228,69" fill="#444"/>
+
+            <!-- ── COMBINED STACK ── -->
+            <!-- bottom brick (purple) -->
+            <rect x="248" y="72" width="60" height="24" rx="1" fill="#1e1230" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="248,72 262,58 322,58 308,72" fill="#2e1e48" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="322,58 322,82 308,96 308,72" fill="#120a20" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="275" cy="64" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="275" cy="62.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="295" cy="64" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="295" cy="62.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+            <!-- top brick (cyan) snapped on -->
+            <rect x="248" y="49" width="60" height="24" rx="1" fill="#081a28" stroke="#00d4ff" stroke-width="1"/>
+            <polygon points="248,49 262,35 322,35 308,49" fill="#0d2636" stroke="#00d4ff" stroke-width="1"/>
+            <polygon points="322,35 322,59 308,73 308,49" fill="#040e18" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="275" cy="41" rx="7" ry="3.5" fill="#0d2636" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="275" cy="39.5" rx="7" ry="3.5" fill="#1a3a4a" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="295" cy="41" rx="7" ry="3.5" fill="#0d2636" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="295" cy="39.5" rx="7" ry="3.5" fill="#1a3a4a" stroke="#00d4ff" stroke-width="0.8"/>
+          </svg>
+
           <p>
-            Think of building with Lego: you don't design every brick from scratch. You start with
-            small, well-defined compositions — a wall section, a roof piece, a door frame — and combine
-            them into larger structures. Similarly, our layout library stores small, verified compositional
-            patterns (e.g., "tube on hot plate," "arrow from mouse to sample") that can be combined and
-            chained to represent complex experimental workflows. Complexity emerges from correct
-            combinations of correct primitives.
+            Think of building with Lego: you don't re-design every brick for each build from scratch.
+            Each brick is a reusable, well-defined unit — and complex structures emerge from snapping
+            the right pieces together in the right order. Our layout library works the same way: it
+            stores small, verified compositional patterns (e.g., "tube on hot plate," "arrow from mouse
+            to sample") that can be combined and chained to represent complex experimental workflows.
+            Complexity emerges from correct combinations of correct primitives.
           </p>
         </div>
       </div>
