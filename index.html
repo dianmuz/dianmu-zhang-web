@@ -445,6 +445,19 @@
       top: 0.12rem;
     }
 
+    .read-more {
+      display: inline-block;
+      margin-top: 0.9rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      opacity: 0.75;
+      transition: opacity 0.2s, letter-spacing 0.2s;
+    }
+    .read-more:hover { opacity: 1; letter-spacing: 0.1em; }
+
     /* ─── PUBLICATIONS ─────────────────────────────────────────────── */
     #publications .pub-list {
       display: flex;
@@ -777,6 +790,7 @@
           <li>Led end-to-end ML development: training from scratch to on-device optimization for Windows and Android (GPU, NPU, tflite, ONNX).</li>
           <li>Patent granted: Multiple Object Tracking (US 11,017,538).</li>
         </ul>
+        <a href="microsoft-edge-inference.html" class="read-more">read more — the journey to edge device inference →</a>
       </div>
 
       <div class="exp-item">
