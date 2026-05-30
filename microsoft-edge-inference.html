@@ -44,65 +44,47 @@
       z-index: 9999;
     }
 
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
     /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 60px;
-      background: rgba(8,8,8,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      z-index: 100;
       display: flex;
       align-items: center;
-      padding: 0 2rem;
-      z-index: 100;
-      gap: 1.5rem;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
     }
-
-    nav a {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--cyan); }
-    nav a.back { color: var(--cyan); }
-    nav .sep { color: var(--border); }
+    .nav-logo { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+    .nav-logo span { color: var(--cyan); }
+    .nav-logo:hover { text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; color: var(--dim); text-transform: uppercase; transition: color 0.2s; }
+    .nav-back::before { content: '← '; }
+    .nav-back:hover { color: var(--white); text-decoration: none; }
 
     /* ── HERO ── */
     .hero {
-      padding: 120px 2rem 60px;
-      max-width: 860px;
+      padding: 9rem 3rem 5rem;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
-    .hero-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--cyan);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
+    .breadcrumb { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; margin-bottom: 1.5rem; }
+    .breadcrumb span { color: var(--cyan); }
+    .page-tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.3em; color: var(--cyan); text-transform: uppercase; margin-bottom: 1rem; }
+    .page-tag::before { content: '// '; opacity: 0.5; }
 
-    .hero h1 {
-      font-family: var(--sans);
-      font-size: clamp(2rem, 5vw, 3.8rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
+    .hero h1 { font-family: var(--sans); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; text-transform: uppercase; color: var(--white); margin-bottom: 1.2rem; }
+    .hero h1 em { font-style: normal; color: var(--cyan); }
 
-    .hero h1 span { color: var(--cyan); }
-
-    .hero-sub {
-      font-size: 1.1rem;
-      color: var(--dim);
-      max-width: 620px;
-    }
+    .page-meta { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .meta-item { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; color: var(--dim); text-transform: uppercase; }
+    .meta-item strong { color: var(--white); }
 
     /* ── ILLUSTRATION CANVAS ── */
     .illustration-wrap {
@@ -237,17 +219,19 @@
 <body>
 
 <nav>
-  <a href="index.html" class="back">← back</a>
-  <span class="sep">/</span>
-  <a href="index.html#experience">experience</a>
-  <span class="sep">/</span>
-  <a style="color:var(--white)">microsoft · edge inference</a>
+  <a class="nav-logo" href="index.html">DZ<span>.</span>PH<span>D</span></a>
+  <a class="nav-back" href="index.html#experience">Back to Experience</a>
 </nav>
 
 <div class="hero">
-  <div class="hero-label">Microsoft · 2018 — 2022</div>
-  <h1>The Journey to<br><span>Edge Device Inference</span></h1>
-  <p class="hero-sub">Running state-of-the-art ML models on your device in real time — no cloud, no GPU, just a tiny model and a long road to get there.</p>
+  <div class="breadcrumb">Dianmu Zhang · <span>Microsoft</span> · 2018–2022</div>
+  <p class="page-tag">On-Device ML · Model Training & Optimization · Computer Vision · HCI</p>
+  <h1>The Journey to<br><em>Edge Device Inference</em></h1>
+  <div class="page-meta">
+    <div class="meta-item">Company: <strong>Microsoft</strong></div>
+    <div class="meta-item">Role: <strong>ML Researcher</strong></div>
+    <div class="meta-item">Shipped: <strong>Billions of Windows Users</strong></div>
+  </div>
 </div>
 
 <!-- ANIMATED ILLUSTRATION -->
