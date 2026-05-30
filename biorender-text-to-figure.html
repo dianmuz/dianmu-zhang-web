@@ -578,7 +578,41 @@
             to sample") that can be combined and chained to represent complex experimental workflows.
             Complexity emerges from correct combinations of correct primitives.
           </p>
-        </div>
+
+          <!-- Pyramid illustration: 2 bricks on base, 1 centered on top.
+               Isometric: brick = 60w × 24h front face, top face offset (+14,-14).
+               Bottom-left (purple):  front top-left = (83, 75)
+               Bottom-right (cyan):   front top-left = (143, 75)  ← shares left edge with purple's right edge
+               Top (purple):          front top-left = (113, 51)  ← centered (+30x, -24y), bottom aligns with base top ✓ -->
+          <svg viewBox="0 0 300 115" xmlns="http://www.w3.org/2000/svg" style="width:min(300px,100%);height:auto;display:block;margin:1rem auto 0;">
+
+            <!-- ── BOTTOM-LEFT: purple ── -->
+            <rect x="83" y="75" width="60" height="24" rx="1" fill="#1e1230" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="83,75 97,61 157,61 143,75" fill="#2e1e48" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="143,75 157,61 157,85 143,99" fill="#120a20" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="110" cy="67" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="110" cy="65.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="130" cy="67" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="130" cy="65.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+
+            <!-- ── BOTTOM-RIGHT: cyan ── -->
+            <rect x="143" y="75" width="60" height="24" rx="1" fill="#081a28" stroke="#00d4ff" stroke-width="1"/>
+            <polygon points="143,75 157,61 217,61 203,75" fill="#0d2636" stroke="#00d4ff" stroke-width="1"/>
+            <polygon points="203,75 217,61 217,85 203,99" fill="#040e18" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="170" cy="67" rx="7" ry="3.5" fill="#0d2636" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="170" cy="65.5" rx="7" ry="3.5" fill="#1a3a4a" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="190" cy="67" rx="7" ry="3.5" fill="#0d2636" stroke="#00d4ff" stroke-width="0.8"/>
+            <ellipse cx="190" cy="65.5" rx="7" ry="3.5" fill="#1a3a4a" stroke="#00d4ff" stroke-width="0.8"/>
+
+            <!-- ── TOP: purple, centered over base row ── -->
+            <rect x="113" y="51" width="60" height="24" rx="1" fill="#1e1230" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="113,51 127,37 187,37 173,51" fill="#2e1e48" stroke="#a78bfa" stroke-width="1"/>
+            <polygon points="173,51 187,37 187,61 173,75" fill="#120a20" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="140" cy="43" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="140" cy="41.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="160" cy="43" rx="7" ry="3.5" fill="#2e1e48" stroke="#a78bfa" stroke-width="0.8"/>
+            <ellipse cx="160" cy="41.5" rx="7" ry="3.5" fill="#3e2e58" stroke="#a78bfa" stroke-width="0.8"/>
+          </svg>
       </div>
 
       <div class="content-section">
